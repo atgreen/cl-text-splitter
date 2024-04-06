@@ -25,8 +25,8 @@
 
 (in-package :text-splitter)
 
-(defclass text-splitter ()
-  ())
+(defparameter +default-size+ 5000)
+(defparameter +default-overlap+ 200)
 
 (defclass document ()
   ((text :initarg :text)))
@@ -46,11 +46,6 @@
 (defclass pdf-document (plaintext-document)
   ())
 
-(defclass csv-document (plaintext-document)
-  ())
-
-;; Assuming you've already defined the classes as shown in your message
-
 (defun detect-document-type (filename)
   "Detects the document type based on the file extension."
   (let ((extension (pathname-type filename)))
@@ -60,7 +55,6 @@
       ((string-equal extension "html") 'html-document)
       ((string-equal extension "org") 'org-mode-document)
       ((string-equal extension "pdf") 'pdf-document)
-      ((string-equal extension "csv") 'csv-document)
       (t 'document))))
 
 (defun make-document-from-file (filename)
@@ -100,8 +94,8 @@
                               (subseq (aref sa (1+ i)) 0 (min (length (aref sa (1+ i))) overlap))
                               "")))))
 
-(defmethod split ((doc plaintext-document) &key (size 5000) (overlap 200))
-  "Split a plaintext DOC up into a list of strings around SIZE big and
+(defmethod split-internal (doc delimeters size overlap)
+  "Split a DOC up into a list of strings around SIZE big and
  overlapping by OVERLAP characters on either end."
   (let ((usize (- size (* overlap 2))))
     (labels ((%split (text delimeters)
@@ -119,7 +113,26 @@
                    text)))
       (let ((small-chunks
               (alexandria:flatten
-               (%split (slot-value doc 'text) `(,(format nil "~A" #\Page) "\\n\\n" "[.!]" "\\n" ",:=" "[ \\t]")))))
-        ;; Merge the small-chunks
+               (%split (slot-value doc 'text) delimiters))))
         (let ((strings (merge-adjacent-strings small-chunks usize)))
           (add-overlaps strings overlap))))))
+
+(defmethod split ((doc plaintext-document) &key (size +default-size+) (overlap +default-overlap+))
+  "Split a plaintext DOC up into a list of strings around SIZE big and
+ overlapping by OVERLAP characters on either end."
+  (split-internal doc '(,(format nil "~A" #\Page) "\\n\\n" "[.!]" "\\n" ",:=" "[ \\t]") size overlap))
+
+(defmethod split ((doc markdown-document) &key (size +default-size+) (overlap +default-overlap+))
+  "Split a markdown DOC up into a list of strings around SIZE big and
+ overlapping by OVERLAP characters on either end."
+  (split-internal doc '("^# " "^## " "^### " "^#### " "\\n\\n" "[.!]" "\\n" ",:=" "[ \\t]") size overlap))
+
+(defmethod split ((doc org-mode-document) &key (size +default-size+) (overlap +default-overlap+))
+  "Split an org-mode DOC up into a list of strings around SIZE big and
+ overlapping by OVERLAP characters on either end."
+  (split-internal doc '("^\* " "^\*\* " "^\*\*\* " "^\*\*\*\* " "\\n\\n" "[.!]" "\\n" ",:=" "[ \\t]") size overlap))
+
+(defmethod split ((doc html-document) &key (size +default-size+) (overlap +default-overlap+))
+  "Split an HTML DOC up into a list of strings around SIZE big and
+ overlapping by OVERLAP characters on either end."
+  (split-internal doc '("<h1" "<h2" "<h3" "<h4" "<h5" "<h6" "<div" "<p" "<table" "<ul" "[.!]" "\\n" ",:=" "[ \\t]") size overlap))

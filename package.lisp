@@ -25,4 +25,8 @@
 
 (defpackage #:text-splitter
   (:use #:cl)
-  (:export make-document-from-file split))
+  (:export make-document-from-file split
+           plaintext-document
+           markdown-document
+           org-mode-document
+           html-document))

@@ -9,6 +9,21 @@ Usage
 $ ocicl install text-splitter
 ```
 
+Load and split documents like so:
+```
+(split (make-document-from-file "report.pdf"))
+```
+This will produce a list of strings split from `report.pdf` using the default size and overlap values (5000 and 200 characters respectively).
+
+You can also create document instances manually like so:
+```
+(split (make-instance 'html-document :text MY-HTML-STRING) :size 10000 :overlap 0)
+```
+
+The `split` function will take advantage of document structure as it
+computes the splits, which is why it is helpful to know what kind of
+document we're splitting.
+
 Related Projects
 -----------------
 
