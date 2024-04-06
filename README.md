@@ -21,6 +21,6 @@ Related projects include:
 Author and License
 -------------------
 
-``cl-completions`` was written by [Anthony
+``cl-text-splitter`` was written by [Anthony
 Green](https://github.com/atgreen) and is distributed under the terms
 of the MIT license.
