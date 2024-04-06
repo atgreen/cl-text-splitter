@@ -100,7 +100,7 @@
                               (subseq (aref sa (1+ i)) 0 (min (length (aref sa (1+ i))) overlap))
                               "")))))
 
-(defmethod split ((doc plaintext-document) &key (size 1000) (overlap 50))
+(defmethod split ((doc plaintext-document) &key (size 5000) (overlap 200))
   "Split a plaintext DOC up into a list of strings around SIZE big and
  overlapping by OVERLAP characters on either end."
   (let ((usize (- size (* overlap 2))))
