@@ -135,4 +135,4 @@
 (defmethod split ((doc html-document) &key (size +default-size+) (overlap +default-overlap+))
   "Split an HTML DOC up into a list of strings around SIZE big and
  overlapping by OVERLAP characters on either end."
-  (split-internal doc '("<h1" "<h2" "<h3" "<h4" "<h5" "<h6" "<div" "<p" "<table" "<ul" "[.!]" "\\n" ",:=" "[ \\t]") size overlap))
+  (split-internal doc '("<h1" "<h2" "<h3" "<h4" "<h5" "<h6" "<div" "<p" "<table" "<[uo]l" "[.!]" "\\n" ",:=" "[ \\t]") size overlap))
