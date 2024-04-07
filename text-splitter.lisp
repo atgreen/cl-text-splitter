@@ -73,7 +73,8 @@
          (make-instance document-type :text text-content))))))
 
 (defun merge-adjacent-strings (strings x)
-  "Merges adjacent strings in STRINGS if their combined length is <= X, aiming for the shortest list."
+  "Merges adjacent strings in STRINGS if their combined length is <= X,
+ aiming for the shortest list."
   (loop with result = (list (first strings))
         for s in (cdr strings)
         do (if (<= (+ (length (car result)) (length s)) x)
