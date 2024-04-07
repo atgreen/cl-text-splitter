@@ -125,12 +125,12 @@
 (defmethod split ((doc markdown-document) &key (size +default-size+) (overlap +default-overlap+))
   "Split a markdown DOC up into a list of strings around SIZE big and
  overlapping by OVERLAP characters on either end."
-  (split-internal doc '("^# " "^## " "^### " "^#### " "\\n\\n" "[.!]" "\\n" ",:=" "[ \\t]") size overlap))
+  (split-internal doc '("^# " "^## " "^### " "^#### " "^##### " "^###### " "\\n\\n" "[.!]" "\\n" ",:=" "[ \\t]") size overlap))
 
 (defmethod split ((doc org-mode-document) &key (size +default-size+) (overlap +default-overlap+))
   "Split an org-mode DOC up into a list of strings around SIZE big and
  overlapping by OVERLAP characters on either end."
-  (split-internal doc '("^\* " "^\*\* " "^\*\*\* " "^\*\*\*\* " "\\n\\n" "[.!]" "\\n" ",:=" "[ \\t]") size overlap))
+  (split-internal doc '("^\* " "^\*\* " "^\*\*\* " "^\*\*\*\* " "^\*\*\*\*\* " "^\*\*\*\*\*\* " "\\n\\n" "[.!]" "\\n" ",:=" "[ \\t]") size overlap))
 
 (defmethod split ((doc html-document) &key (size +default-size+) (overlap +default-overlap+))
   "Split an HTML DOC up into a list of strings around SIZE big and

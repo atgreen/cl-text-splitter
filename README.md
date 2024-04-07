@@ -4,7 +4,7 @@
 Usage
 ------
 
-`cl-text-splitter` is available via [ocicl](https://github.com/ocicl/ocicl).  Install it like so:
+`text-splitter` is available via [ocicl](https://github.com/ocicl/ocicl).  Install it like so:
 ```
 $ ocicl install text-splitter
 ```
