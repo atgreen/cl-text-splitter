@@ -121,7 +121,7 @@
 (defmethod split ((doc plaintext-document) &key (size +default-size+) (overlap +default-overlap+))
   "Split a plaintext DOC up into a list of strings around SIZE big and
  overlapping by OVERLAP characters on either end."
-  (split-internal doc '(,(format nil "~A" #\Page) "\\n\\n" "[.!]" "\\n" ",:=" "[ \\t]") size overlap))
+  (split-internal doc `(,(format nil "~A" #\Page) "\\n\\n" "[.!]" "\\n" ",:=" "[ \\t]") size overlap))
 
 (defmethod split ((doc markdown-document) &key (size +default-size+) (overlap +default-overlap+))
   "Split a markdown DOC up into a list of strings around SIZE big and
