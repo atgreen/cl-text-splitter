@@ -95,20 +95,20 @@
                               (subseq (aref sa (1+ i)) 0 (min (length (aref sa (1+ i))) overlap))
                               "")))))
 
-(defmethod split-internal (doc delimeters size overlap)
+(defmethod split-internal (doc delimiters size overlap)
   "Split a DOC up into a list of strings around SIZE big and
  overlapping by OVERLAP characters on either end."
   (let ((usize (- size (* overlap 2))))
-    (labels ((%split (text delimeters)
+    (labels ((%split (text delimiters)
                (if (> (length text) usize)
-                   (if delimeters
-                       (let* ((matches (cl-ppcre:all-matches-as-strings (car delimeters) text))
-                              (splits (cl-ppcre:split (car delimeters) text)))
+                   (if delimiters
+                       (let* ((matches (cl-ppcre:all-matches-as-strings (car delimiters) text))
+                              (splits (cl-ppcre:split (car delimiters) text)))
                          (if matches
                              (mapcar (lambda (txt)
-                                       (%split txt (cdr delimeters)))
+                                       (%split txt (cdr delimiters)))
                                      (mapcar (lambda (a b) (concatenate 'string a b)) splits matches))
-                             (%split text (cdr delimeters))))
+                             (%split text (cdr delimiters))))
                        (loop for i from 0 below (length text) by usize
                              collect (subseq text i (min (+ i usize) (length text)))))
                    text)))
