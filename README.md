@@ -24,6 +24,8 @@ The `split` function will take advantage of document structure as it
 computes the splits, which is why it is helpful to know what kind of
 document we're splitting.
 
+`split` will return `nil` if it doesn't recognize the document type.
+
 Related Projects
 -----------------
 

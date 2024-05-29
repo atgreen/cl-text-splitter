@@ -118,6 +118,9 @@
         (let ((strings (merge-adjacent-strings small-chunks usize)))
           (add-overlaps strings overlap))))))
 
+(defmethod split ((doc document) &key (size +default-size+) (overlap +default-overlap+))
+  nil)
+
 (defmethod split ((doc plaintext-document) &key (size +default-size+) (overlap +default-overlap+))
   "Split a plaintext DOC up into a list of strings around SIZE big and
  overlapping by OVERLAP characters on either end."
